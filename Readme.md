@@ -37,7 +37,7 @@ This project is a **backend service** for managing customers, accounts, and tran
 
 *   Node.js & TypeScript
 *   Express.js for building REST APIs
-*   Prisma ORM with PostgreSQL (or any relational DB) for data persistence
+*   Prisma ORM with PostgreSQL for data persistence
 *   Jest for comprehensive unit testing
 *   Custom Security Utilities: `HashService` (password hashing), `TokenService` (JWT management)
 *   Standardized Error Handling: `ApiError`
@@ -51,7 +51,7 @@ This project is a **backend service** for managing customers, accounts, and tran
 
 ```bash
 git clone https://github.com/thablackcodes/gresh-finance.git
-cd gresh finance
+cd gresh-finance
 ```
 
 2.  Install dependencies:
@@ -73,17 +73,7 @@ npx prisma migrate dev --name init
 Create a `.env` file in the root directory with the following variables:
 
 ```
-NODE_ENV=development
-PORT=3000
-
-DATABASE_URL="postgresql://user:password@localhost:5432/gresh_finance_db"
-
-JWT_SECRET="supersecretkeyforjwt"
-JWT_REFRESH_SECRET="anothersupersecretkeyforjwtrefresh"
-ACCESS_TOKEN_EXPIRATION="1h"
-REFRESH_TOKEN_EXPIRATION="7d"
-
-HASH_SALT_ROUNDS=10
+check .env.examples to see requirements
 ```
 
 ---
