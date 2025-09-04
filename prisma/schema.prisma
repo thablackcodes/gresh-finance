@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ================== MODELS ==================
+model Customer {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  firstName  String
+  lastName   String
+  password   String
+  isActive   Boolean   @default(true)
+  isVerified Boolean   @default(true)
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // relations
+  accounts   Account[]
+}
+
+model Account {
+  id            String        @id @default(uuid())
+  customerId    String
+  accountNumber String        @unique
+  accountType   AccountType   @default(SAVINGS)
+  currency      String        @default("NGN")
+  balance       Decimal       @default(0.0)
+  status        AccountStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  customer        Customer      @relation(fields: [customerId], references: [id])
+  transactionsFrom Transaction[] @relation("FromAccount")
+  transactionsTo   Transaction[] @relation("ToAccount")
+}
+
+model Transaction {
+  id           String            @id @default(uuid())
+  fromAccountId String?          
+  toAccountId   String?          
+  type         TransactionType
+  amount       Decimal
+  status       TransactionStatus @default(PENDING)
+  transferReference String?
+  balanceAfter Decimal
+  category     Category
+  narration    String?
+  reference    String            @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  fromAccount Account? @relation("FromAccount", fields: [fromAccountId], references: [id])
+  toAccount   Account? @relation("ToAccount", fields: [toAccountId], references: [id])
+}
+
+// ================== ENUMS ==================
+enum AccountType {
+  SAVINGS
+  HIDA
+  CURRENT
+}
+
+enum AccountStatus {
+  ACTIVE
+  FROZEN
+  CLOSED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER_OUT
+  TRANSFER_IN
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum Category {
+  CREDIT
+  DEBIT
+}

@@ -1,0 +1,24 @@
+import z from "zod";
+
+
+
+const updateCustomerDetailsSchema = z.object({
+  accountType: z.enum(["SAVINGS", "CURRENT"]).optional(),
+  status: z.enum(["ACTIVE", "FROZEN", "CLOSED"]).optional(),
+}).refine(
+  (data) => data.accountType !== undefined || data.status !== undefined,
+  "At least one field (accountType or status) must be provided."
+);
+
+
+
+const createAccountSchema = z.object({
+  accountType: z.enum(["SAVINGS", "HIDA", "CURRENT"]),
+  currency: z.string().optional(),
+});
+
+
+export const customerValidation = {
+  updateCustomerDetailsSchema,
+  createAccountSchema
+};
