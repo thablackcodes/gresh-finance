@@ -13,7 +13,7 @@ const defaultRoutes: {
     route: authRoutes,
   },
   {
-    path: "/customer",
+    path: "/customers",
     route: customerRoutes,
   },
   {
