@@ -50,8 +50,8 @@ This project is a **backend service** for managing customers, accounts, and tran
 1.  Clone the repository:
 
 ```bash
-git clone <repo_url>
-cd <repo_folder>
+git clone https://github.com/thablackcodes/gresh-finance.git
+cd gresh finance
 ```
 
 2.  Install dependencies:
