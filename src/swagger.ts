@@ -14,7 +14,7 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: 'https://navo-api.onrender.com',
+        url: 'https://gresh-finance.onrender.com/api/v1',
         description: 'Prod development server',
       },
       {

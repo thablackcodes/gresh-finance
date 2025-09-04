@@ -67,7 +67,7 @@ const corsOptions = {
     callback: (err: Error | null, allow?: boolean) => void,
   ) => {
     const allowedOrigins = [
-      "https://navoapi.viaspark.site",
+      "https://gresh-finance.onrender.com",
       "http://localhost:4000",
     ];
 
