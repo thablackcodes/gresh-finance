@@ -16,7 +16,7 @@ const transactionRoutes = express.Router();
  *     summary: Deposit funds into an account
  *     description: Allows authenticated users to deposit funds into a specified account.
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -79,7 +79,7 @@ transactionRoutes.post('/deposit',
  *     summary: Withdraw funds from an account
  *     description: Allows authenticated users to withdraw funds from a specified account.
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -142,7 +142,7 @@ transactionRoutes.post('/withdraw',
  *     summary: Transfer funds between accounts
  *     description: Allows authenticated users to transfer funds from one account to another.
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -212,7 +212,7 @@ transactionRoutes.post('/transfer',
  *     summary: Get transactions for a specific account
  *     description: Allows authenticated users to retrieve a list of transactions for a given account number.
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: accountNumber
@@ -293,7 +293,7 @@ transactionRoutes.get('/account/:accountNumber',
  *     summary: Get a transaction by ID
  *     description: Allows authenticated users to retrieve details of a specific transaction by its unique ID.
  *     security:
- *       - bearerAuth: []
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
