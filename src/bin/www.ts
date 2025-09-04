@@ -3,17 +3,14 @@ import app from "../server";
 import { prisma } from "../db";
 import { logger, config } from "../config";
 
-
-
 const server = http.createServer(app);
-
 
 const startApp = async () => {
   try {
     await prisma.$connect();
     logger.info(`\x1b[32mDB:\x1b[0m SQL Connected`);
 
-    server.listen(config.PORT || '0.0.0.0' ,() => {
+    server.listen(config.PORT || "0.0.0.0", () => {
       logger.info(
         `\x1b[36mServer:\x1b[0m Running on http://localhost:${config.PORT}`,
       );
@@ -28,7 +25,6 @@ const startApp = async () => {
     process.exit(1);
   }
 };
-
 
 const gracefulShutdown = async () => {
   logger.info(`\x1b[33mServer:\x1b[0m Shutting down...`);

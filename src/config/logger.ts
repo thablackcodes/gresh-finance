@@ -3,9 +3,6 @@ import pino from 'pino';
 function maskSensitive(value: string): string {
   // Handle email addresses
   value = value.replace(/\b([A-Z0-9._%+-]{2})[A-Z0-9._%+-]*@/gi, '$1***@');
-  value = value.replace(/\b(\+\d{1,3}[- ]?)?(\d{2})(\d+)(\d{2})\b/g, '$1$2***$4');
-  value = value.replace(/\b(\d{2})\d+\b/g, '$1***');
-  value = value.replace(/\b(23[34]\d{3})\d{3}(\d{3})\b/g, '$1***$2');
   return value;
 }
 

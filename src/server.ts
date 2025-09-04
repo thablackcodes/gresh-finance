@@ -3,14 +3,12 @@ import express, { Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import { setupSwagger } from "./swagger";
 import compression from "compression";
-// import cookieParser from "cookie-parser";
-import path from 'path';
 import hpp from "hpp";
 import cors from "cors";
 import enforce from "express-sslify";
 
 // ✅ Config & Middlewares
-import { logger,morganMiddleware, config,} from "./config";
+import { logger, morganMiddleware, config } from "./config";
 import {
   errorHandler,
   sanitize,
@@ -22,8 +20,6 @@ import { httpStatus } from "./utils";
 
 // ✅ Routes & Controllers
 import { customerRouter } from "./routers";
-
-
 
 // ✅ App Initialization
 const app = express();
@@ -57,11 +53,6 @@ app.use(
 );
 app.disable("x-powered-by");
 
-
-
-
-
-
 // 🔒 3. Additional Security Headers
 app.use((_req: Request, res: Response, next: NextFunction) => {
   res.setHeader("X-XSS-Protection", "1; mode=block");
@@ -78,10 +69,6 @@ const corsOptions = {
     const allowedOrigins = [
       "https://navoapi.viaspark.site",
       "http://localhost:4000",
-      "https://your-mobile-app.com",
-      "capacitor://localhost",
-      "ionic://localhost",
-      "http://localhost",
     ];
 
     if (
@@ -103,16 +90,14 @@ const corsOptions = {
     "Authorization",
     "X-Requested-With",
     "Accept",
-    "expo-api-key"
+    "expo-api-key",
   ],
-  exposedHeaders: ['set-cookie'],
+  exposedHeaders: ["set-cookie"],
   credentials: true,
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-
-
 
 // 🔒 6. Body Parsing & Security
 app.use(express.json({ limit: "10kb" }));
@@ -125,34 +110,34 @@ app.set("trust proxy", 1);
 
 // 🔒 7. Content-Type Validation
 app.use((req: Request, res: Response, next: NextFunction): void => {
-  // if (req.path.startsWith("/webhook/")) return next();
-
   if (["POST", "PUT", "PATCH"].includes(req.method)) {
     const contentType = req.headers["content-type"];
     if (
       !contentType ||
       (!contentType.includes("application/json") &&
-       !contentType.includes("multipart/form-data"))
+        !contentType.includes("multipart/form-data"))
     ) {
-      res.status(400).json({ error: "Content-Type must be application/json or multipart/form-data" });
+      res
+        .status(400)
+        .json({
+          error: "Content-Type must be application/json or multipart/form-data",
+        });
     }
   }
 
   next();
 });
 
-
 // ========================
 // 🚀 APPLICATION MIDDLEWARE
 // ========================
-// 
-
-
+//
 
 // 📝 1. Logging
 app.use(morganMiddleware);
 app.use((req: Request, _res: Response, next: NextFunction) => {
-  const logPayload = config.env === "development" && ['POST', 'PUT'].includes(req.method);
+  const logPayload =
+    config.env === "development" && ["POST", "PUT"].includes(req.method);
   logger.info(`${req.method} ${req.url}`, {
     ip: req.ip,
     ua: req.headers["user-agent"],
@@ -161,15 +146,8 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   next();
 });
 
-
-
-// app.use(
-//   "/webhook",nombaHooks
-// );
-
 // 📚 3. Swagger Documentation
 setupSwagger(app);
-
 
 // ========================
 // 🛣️ ROUTES
@@ -188,7 +166,8 @@ app.get("/ping", (_req, res) => {
 app.use("/api/v1/auth", authRateLimiter);
 
 // Apply general limiter to the rest of the API
-app.use("/api/v1",generalRateLimiter);
+app.use("/api/v1", generalRateLimiter);
+
 // 🚀 2. API Routes
 app.use("/api/v1", customerRouter);
 
@@ -214,22 +193,18 @@ app.use((err, req, res, next) => {
       ...err.toJSON(),
     });
   }
-  
+
   // fallback for unknown errors
   logger.error(err);
   return res.status(500).json({
     success: false,
-    message: config.env === 'development' ? err.message : 'Something went wrong',
-    ...(config.env === 'development' && { stack: err.stack }),
+    message:
+      config.env === "development" ? err.message : "Something went wrong",
+    ...(config.env === "development" && { stack: err.stack }),
   });
 });
 
-
-
-
 // 🛑 2. Global Error Handler
 app.use(errorHandler);
-
-
 
 export default app;
