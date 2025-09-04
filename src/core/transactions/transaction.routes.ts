@@ -9,7 +9,7 @@ const transactionRoutes = express.Router();
 
 /**
  * @swagger
- * transaction/deposit:
+ * /transaction/deposit:
  *   post:
  *     tags:
  *       - Transaction
