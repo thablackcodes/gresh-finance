@@ -52,6 +52,7 @@ This project is a **backend service** for managing customers, accounts, and tran
 ```bash
 git clone https://github.com/thablackcodes/gresh-finance.git
 cd gresh-finance
+You will find the main application modules, such as `auth`, `customers`, and `transactions`, located within the `core` directory.
 ```
 
 2.  Install dependencies:
